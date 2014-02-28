@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-switch.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui"/>
     <title>Smart Dude</title>
 </head>
 <body>
     <div class="main-wrapper">
+        <h2 class="title">Smart Dude</h2>
         <div class="toggle-button">
             <input data-role="none" id="dimension-switch" type="checkbox" checked>
         </div>
         <br>
         <br>
-        <input class="slider" type="range" min="5" max="120" step="5" value="60">
-        <div class="slider-minutes">60</div>
+        <label class="input-label">
+            <input class="slider" type="range" min="5" max="120" step="5" value="60">
+        </label>
+        <div class="minutes-holder">
+            <div class="slider-minutes">60</div>
+            <span>minutes</span>
+        </div>
+        <div class="last-timestamp">
+            <span>Last time dude was on at <span class="time-text">{{lastTimeOn}}</span> for <span class="time-text">{{duration}}</span> minutes</span>
+        </div>
+
+
         <div id="popup" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">

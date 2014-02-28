@@ -50,7 +50,6 @@ define([
                     password: password
                 },
                 success: function(response) {
-                    debugger;
                     if (response.auth) {
 
                         localStorage.setItem('dude-auth', true);
@@ -72,7 +71,7 @@ define([
             var value = data.value ? 'HIGH' : 'LOW';
             var thisView = this;
 
-            var success = function() {
+            var success = function(res) {
                 thisView.$('#popup').modal('show');
                 setTimeout(function(){
                     thisView.$('#popup').modal('hide');
