@@ -45,13 +45,15 @@ app.get('/smartdude', function(req, res) {
     checkDudeState(function(response) {
         var timeTrimmed = 'N/A'
         if (lastOnTime) {
-            var timeString = lastOnTime.toString();
+            var timeAferTimeZone = new Date(lastOnTime.getTime());
+            timeAferTimeZone.setHours(timeAferTimeZone.getHours() + 2);
+            var timeString = timeAferTimeZone.toString();
             timeTrimmed = timeString.substring(0, timeString.length - 15);
         }
 
 
         res.send(templates.index({
-            dudeState: response.result,
+            dudeState: response ? response.result : 0,
             lastTimeOn: timeTrimmed,
             duration: duration ? duration : 'N/A'
         }));
@@ -99,19 +101,24 @@ var switchOffDude = function() {
 
 var pollDude = function() {
     var dudeStarted = false;
-    setInterval(function(){
+    setInterval(function() {
         checkDudeState(function(response) {
-            if (response.result == 1) {
-                if(!dudeStarted) {
-                    lastOnTime = new Date();
-                    dudeStarted = true;
-                }
+            if (response) {
+                if (response.result == 1) {
+                    if(!dudeStarted) {
+                        lastOnTime = new Date();
+                        dudeStarted = true;
+                        duration = undefined;
+                    }
 
-            } else if (response.result == 0) {
-                var now = new Date();
-                var diffMs = (now - lastOnTime );
-                duration = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-                dudeStarted = false;
+                } else if (response.result == 0) {
+                    if (dudeStarted) {
+                        var now = new Date();
+                        var diffMs = (now - lastOnTime );
+                        duration = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+                        dudeStarted = false;
+                    }
+                }
             }
         })
     }, 5000)

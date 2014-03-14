@@ -15,7 +15,10 @@ requirejs.config({
         'nprogress': 'libs/nprogress/nprogress',
         'bootstrap': 'libs/bootstrap.min',
         'bootstrapSwitch': 'libs/bootstrapSwitch.min',
-        'jquery-mobile': 'libs/jquery.mobile-1.4.0.min'
+        'jquery-mobile': 'libs/jquery.mobile-1.4.0.min',
+        'bootstrapSlider': 'libs/bootstrap-slider',
+        'jquery-ui': 'libs/jquery-ui-1.10.4.min',
+        'jquery-touch': 'libs/jquery-ui-touch'
 
     },
     shim: {

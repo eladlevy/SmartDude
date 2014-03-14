@@ -3,8 +3,9 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-switch.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>Smart Dude</title>
 </head>
 <body>
@@ -16,7 +17,7 @@
         <br>
         <br>
         <label class="input-label">
-            <input class="slider" type="range" min="5" max="120" step="5" value="60">
+            <div class="jquerySlider"></div>
         </label>
         <div class="minutes-holder">
             <div class="slider-minutes">60</div>
@@ -25,7 +26,6 @@
         <div class="last-timestamp">
             <span>Last time dude was on at <span class="time-text">{{lastTimeOn}}</span> for <span class="time-text">{{duration}}</span> minutes</span>
         </div>
-
 
         <div id="popup" class="modal fade">
             <div class="modal-dialog">

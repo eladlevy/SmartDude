@@ -1,15 +1,24 @@
 define([
     'jquery',
+    'underscore',
     'backbone',
     'bootstrap',
-    'bootstrapSwitch'
+    'bootstrapSwitch',
+    'bootstrapSlider',
+    'jquery-touch',
+    'jquery-ui'
+
 //    'jquery-mobile'
 ], function (
     $,
+    _,
     Backbone,
     Bootstrap,
-    BootstrapSwitch
-//    JqueryMobile
+    BootstrapSwitch,
+    bootstrapSlider,
+    JqueryTouch,
+    JqueryUi
+
 
     ) {
 
@@ -18,11 +27,11 @@ define([
         events: {
             'click .main-button' : 'mainButtonClicked',
             'click .sendpassword' : 'sendPassword',
-            'switch-change #dimension-switch' : 'switchChanged',
-            'change .slider' : 'sliderChanged'
+            'switch-change #dimension-switch' : 'switchChanged'
         },
 
         initialize: function(options) {
+            _.bindAll(this, 'sliderChanged');
             if(!localStorage.getItem('dude-auth')) {
                 this.showAuthPopUp();
             } else {
@@ -33,6 +42,12 @@ define([
 
             this.minutes = 60;
             this.setButtonState((options.dudeState == 1));
+            $( '.jquerySlider' ).slider({
+                min: 10,
+                max: 120,
+                value: 60,
+                slide: this.sliderChanged
+            });
         },
 
         showAuthPopUp: function() {
@@ -58,11 +73,12 @@ define([
             });
         },
 
+
         sliderChanged: function() {
             if (this.$('#dimension-switch').bootstrapSwitch('isDisabled')) {
                 this.$('#dimension-switch').bootstrapSwitch('setDisabled', false);
             }
-            var minutes = this.$('.slider').val();
+            var minutes = this.$( '.jquerySlider' ).slider("value");
             this.$('.slider-minutes').html(minutes);
             this.minutes = minutes;
         },
