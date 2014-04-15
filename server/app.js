@@ -2,6 +2,10 @@ var express = require('express');
 var https = require('https');
 var Sparky = require('sparky');
 var templates = require('./HandlebarsTemplates');
+var compression = require('compression');
+var cookieParser = require('cookie-parser');
+var expressSession= require('express-session');
+var bodyParser= require('body-parser');
 
 var AUTH_PASSWORD = '0508824266';
 var app = express();
@@ -10,15 +14,15 @@ var duration;
 
 var core = new Sparky({
     deviceId: '50ff6e065067545634530687',
-    token: '32722114c0edaa8c11e1cdaf2ed958d17fb0658f'
+    token: '2aed53908196a9f4e02120232b9b10703846d6fa'
 });
 
 
 
-app.use(express.compress());
-app.use(express.cookieParser());
-app.use(express.session({secret: 'bizzaboMostBestestSecretIs#3cafe4'}));
-app.use(express.bodyParser());
+app.use(compression());
+app.use(cookieParser());
+app.use(expressSession({secret: 'bizzaboMostBestestSecretIs#3cafe4'}));
+app.use(bodyParser());
 
 app.use(function (req,res,next) {
     next();
@@ -124,7 +128,7 @@ var pollDude = function() {
     }, 5000)
 };
 
-pollDude();
+//pollDude();
 app.listen(8080);
 console.log('Listening on port 8080');
 
