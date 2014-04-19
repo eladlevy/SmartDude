@@ -1,6 +1,7 @@
 var express = require('express');
 var https = require('https');
 var Sparky = require('sparky');
+var EventSource = require('eventsource');
 var templates = require('./HandlebarsTemplates');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');
@@ -11,10 +12,13 @@ var AUTH_PASSWORD = '0508824266';
 var app = express();
 var lastOnTime;
 var duration;
+var dudeState;
 
+var deviceId = '50ff6e065067545634530687';
+var token = '2aed53908196a9f4e02120232b9b10703846d6fa';
 var core = new Sparky({
-    deviceId: '50ff6e065067545634530687',
-    token: '2aed53908196a9f4e02120232b9b10703846d6fa'
+    deviceId: deviceId,
+    token: token
 });
 
 
@@ -46,22 +50,20 @@ app.get('/robots.txt', function(req, res) {
     res.sendfile('robots.txt', {root:'./templates/'});
 });
 app.get('/smartdude', function(req, res) {
-    checkDudeState(function(response) {
-        var timeTrimmed = 'N/A'
-        if (lastOnTime) {
-            var timeAferTimeZone = new Date(lastOnTime.getTime());
-            timeAferTimeZone.setHours(timeAferTimeZone.getHours() + 2);
-            var timeString = timeAferTimeZone.toString();
-            timeTrimmed = timeString.substring(0, timeString.length - 15);
-        }
+    var timeTrimmed = 'N/A'
+    if (lastOnTime) {
+        var timeAferTimeZone = new Date(lastOnTime.getTime());
+        timeAferTimeZone.setHours(timeAferTimeZone.getHours() + 2);
+        var timeString = timeAferTimeZone.toString();
+        timeTrimmed = timeString.substring(0, timeString.length - 15);
+    }
 
 
-        res.send(templates.index({
-            dudeState: response ? response.result : 0,
-            lastTimeOn: timeTrimmed,
-            duration: duration ? duration : 'N/A'
-        }));
-    });
+    res.send(templates.index({
+        dudeState: dudeState,
+        lastTimeOn: timeTrimmed,
+        duration: duration ? duration : 'N/A'
+    }));
 });
 
 var timeout = undefined;
@@ -78,7 +80,7 @@ app.put('/toggle-dude', function(req, res) {
 });
 
 app.get('/dude-status', function(req, res) {
-    checkDudeState(function(response){
+    checkDudeState(function(response) {
         res.send(response);
     });
 });
@@ -95,13 +97,21 @@ var checkDudeState = function(callback) {
     core.get('dudestate', function(response) {
         callback && callback(response);
     });
-}
+};
 
 var switchOffDude = function() {
     core.run('toggleDude', 'LOW', function(response) {
-
     });
-}
+};
+
+var eventHandler = function() {
+    var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceId + "/events/?access_token=" + token);
+    eventSource.addEventListener('stateChanged', function(e) {
+        var rawData = JSON.parse(e.data);
+        var parsedData = JSON.parse(rawData.data);
+        dudeState = parsedData.state;
+    },false);
+};
 
 var pollDude = function() {
     var dudeStarted = false;
@@ -128,7 +138,10 @@ var pollDude = function() {
     }, 5000)
 };
 
-//pollDude();
+checkDudeState(function(response) {
+    dudeState = response.result;
+});
+eventHandler();
 app.listen(8080);
 console.log('Listening on port 8080');
 

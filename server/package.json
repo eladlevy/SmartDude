@@ -11,6 +11,8 @@
   "dependencies": {
     "body-parser": "^1.0.2",
     "cookie-parser": "^1.0.1",
-    "express-session": "^1.0.2"
+    "eventsource": "^0.1.0",
+    "express-session": "^1.0.2",
+    "sse": "0.0.5"
   }
 }
