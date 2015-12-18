@@ -14,7 +14,7 @@ var lastOnTime;
 var duration;
 var dudeState;
 
-var deviceId = '50ff6e065067545634530687';
+var deviceId = '51ff6a065067545751300187';
 var token = '';
 var core = new Sparky({
     deviceId: deviceId,

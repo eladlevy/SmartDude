@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '/scripts/',
+    baseUrl: 'scripts/',
     urlArgs: 'bust=' + (new Date()).getTime(),  //Remove for prod
     paths: {
         'jquery': 'libs/jquery.2.0.3',

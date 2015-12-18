@@ -59,7 +59,7 @@ define([
             var password = this.$('.password').val();
 
             Backbone.ajax({
-                url: '/authenticate',
+                url: 'authenticate',
                 method: 'PUT',
                 data: {
                     password: password
@@ -98,7 +98,7 @@ define([
                 thisView.setButtonState(data.value);
             }
             Backbone.ajax({
-                url: '/toggle-dude',
+                url: 'toggle-dude',
                 method: 'PUT',
                 data: {
                     value: value,
@@ -119,7 +119,7 @@ define([
                 //thisView.setButtonState((res.result == 1));
             }
             Backbone.ajax({
-                url: '/dude-status',
+                url: 'dude-status',
                 method: 'GET',
                 success: success,
                 error: error
