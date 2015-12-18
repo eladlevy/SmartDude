@@ -15,7 +15,7 @@ var duration;
 var dudeState;
 
 var deviceId = '50ff6e065067545634530687';
-var token = '2aed53908196a9f4e02120232b9b10703846d6fa';
+var token = '';
 var core = new Sparky({
     deviceId: deviceId,
     token: token
