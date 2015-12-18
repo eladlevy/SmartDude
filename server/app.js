@@ -39,9 +39,9 @@ app.use('/scripts', express.static('../client/scripts'));
 app.use('/scripts', express.static('../common/scripts'));
 app.use('/scripts/templates', express.static('../common/templates')); // For the requirejs handlebars plugin
 
-app.get('/', function(req, res) {
-    res.redirect(301, 'https://www.bizzabo.com');
-});
+//app.get('/', function(req, res) {
+//    res.redirect(301, 'https://www.bizzabo.com');
+//});
 app.get('/status', function(req, res) {
     res.send('OK');
 });
@@ -49,7 +49,7 @@ app.get('/status', function(req, res) {
 app.get('/robots.txt', function(req, res) {
     res.sendfile('robots.txt', {root:'./templates/'});
 });
-app.get('/smartdude', function(req, res) {
+app.get('/', function(req, res) {
     var timeTrimmed = 'N/A'
     if (lastOnTime) {
         var timeAferTimeZone = new Date(lastOnTime.getTime());
